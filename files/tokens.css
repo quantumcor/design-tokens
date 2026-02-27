@@ -1,0 +1,101 @@
+/* ═══════════════════════════════════════════════════════════════
+   QuantumCor Design Tokens — Sentinel Style Guide (v2)
+   Source of truth: https://design-tokens.j-best.workers.dev
+   Updated: 2026-02-27
+   ═══════════════════════════════════════════════════════════════ */
+
+:root {
+  /* ── Brand ── */
+  --brand-blue-light: #D9E5FF;
+  --brand-blue: #2D62FF;
+  --brand-blue-dark: #080331;
+  --brand-pink-light: #FFAEFE;
+  --brand-pink: #DD23BB;
+  --brand-pink-dark: #3C043B;
+
+  /* ── Neutrals ── */
+  --neutral-black: #000000;
+  --neutral-white: #FFFFFF;
+  --neutral-lightest: #EEEEEE;
+  --neutral-lighter: #CCCCCC;
+  --neutral-light: #AAAAAA;
+  --neutral: #666666;
+  --neutral-dark: #444444;
+  --neutral-darker: #222222;
+  --neutral-darkest: #111111;
+
+  /* ── System ── */
+  --success-green: #CEF5CA;
+  --success-green-dark: #114E0B;
+  --warning-yellow: #FCF8D8;
+  --warning-yellow-dark: #5E5515;
+  --error-red: #F8E4E4;
+  --error-red-dark: #3B0B0B;
+  --focus-state: #2D62FF;
+
+  /* ── Semantic: Background ── */
+  --bg-primary: var(--neutral-black);
+  --bg-secondary: var(--brand-blue);
+  --bg-tertiary: var(--brand-pink);
+  --bg-alternate: var(--neutral-white);
+
+  /* ── Semantic: Text ── */
+  --text-primary: var(--neutral-black);
+  --text-secondary: var(--neutral-darker);
+  --text-alternate: var(--neutral-white);
+
+  /* ── Semantic: Border ── */
+  --border-primary: var(--neutral-lightest);
+  --border-secondary: var(--brand-blue);
+  --border-alternate: var(--neutral-darker);
+
+  /* ── Semantic: Link ── */
+  --link-primary: var(--brand-blue);
+  --link-secondary: var(--neutral-black);
+  --link-alternate: var(--neutral-white);
+
+  /* ── Typography ── */
+  --font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --text-base: 1rem;
+  --line-height-base: 1.5;
+  --h1: 4rem;
+  --h2: 3rem;
+  --h3: 2rem;
+  --h4: 1.5rem;
+  --h5: 1.25rem;
+  --h6: 1rem;
+  --text-large: 1.5rem;
+  --text-medium: 1.25rem;
+  --text-regular: 1rem;
+  --text-small: 0.875rem;
+  --text-tiny: 0.75rem;
+
+  /* ── Spacing ── */
+  --space-tiny: 0.125rem;
+  --space-xxsmall: 0.25rem;
+  --space-xsmall: 0.5rem;
+  --space-small: 1rem;
+  --space-custom1: 1.5rem;
+  --space-medium: 2rem;
+  --space-custom2: 2.5rem;
+  --space-large: 3rem;
+  --space-custom3: 3.5rem;
+  --space-xlarge: 4rem;
+  --space-xxlarge: 5rem;
+  --space-huge: 6rem;
+  --space-xhuge: 8rem;
+  --space-xxhuge: 12rem;
+
+  /* ── Layout ── */
+  --section-small: 3rem;
+  --section-medium: 5rem;
+  --section-large: 8rem;
+  --padding-global: 2.5rem;
+  --container-small: 48rem;
+  --container-medium: 64rem;
+  --container-large: 80rem;
+
+  /* ── Radii ── */
+  --radius-button: 0.25rem;
+  --radius-card: 0.25rem;
+}
