@@ -1,0 +1,26 @@
+# QuantumCor Warp Terminal Theme
+# Place in ~/.warp/themes/
+name: "QuantumCor"
+accent: "#2369FE"
+background: "#090909"
+foreground: "#CCCCCC"
+details: "darker"
+terminal_colors:
+  normal:
+    black: "#090909"
+    red: "#DC2626"
+    green: "#059669"
+    yellow: "#D97706"
+    blue: "#2369FE"
+    magenta: "#A855F7"
+    cyan: "#22D3EE"
+    white: "#EEEEEE"
+  bright:
+    black: "#444444"
+    red: "#EF4444"
+    green: "#34D399"
+    yellow: "#FBBF24"
+    blue: "#4A85FE"
+    magenta: "#C084FC"
+    cyan: "#67E8F9"
+    white: "#FFFFFF"
