@@ -1,15 +1,15 @@
 #!/usr/bin/env node
 /**
- * QuantumCor Design Token Builder
- * ================================
- * Reads tokens.json → Outputs:
- *   1. tokens.css          — CSS custom properties (Webflow, Cloudflare Pages, any web)
+ * QuantumCor Design Token Builder — Sentinel v2
+ * ==============================================
+ * Reads files/tokens.json + files/tokens.css → Outputs:
+ *   1. tokens.css          — CSS custom properties
  *   2. client-first.css    — Client-First compatible variables for Webflow
- *   3. tailwind.config.js  — Tailwind CSS config (Claude Code, Cursor, Vercel)
+ *   3. tailwind.config.js  — Tailwind CSS config
  *   4. retool-theme.json   — Retool app theming
- *   5. tokens.scss         — SCSS variables (legacy)
+ *   5. tokens.scss         — SCSS variables
  *   6. warp-theme.yaml     — Warp terminal theme
- *   7. github-theme.json   — GitHub Primer-compatible theme
+ *   7. tokens-flat.json    — Flat key-value export
  *
  * Usage: node build-tokens.js
  */
@@ -17,139 +17,123 @@
 const fs = require('fs');
 const path = require('path');
 
-const tokens = JSON.parse(fs.readFileSync(path.join(__dirname, 'tokens.json'), 'utf8'));
+const tokens = JSON.parse(fs.readFileSync(path.join(__dirname, 'files', 'tokens.json'), 'utf8'));
 const dist = path.join(__dirname, 'dist');
 if (!fs.existsSync(dist)) fs.mkdirSync(dist, { recursive: true });
 
 // ─────────────────────────────────────────────
-// HELPER: Extract flat value from token
+// HELPER: Resolve token value
 // ─────────────────────────────────────────────
 function val(token) {
+  if (token === undefined || token === null) return '';
   return typeof token === 'object' && token.value !== undefined ? token.value : token;
 }
 
 // ─────────────────────────────────────────────
-// 1. CSS CUSTOM PROPERTIES (Universal)
+// 1. CSS CUSTOM PROPERTIES
 // ─────────────────────────────────────────────
 function buildCSS() {
   const lines = [
     '/* ═══════════════════════════════════════════════════',
     '   QuantumCor Design Tokens — CSS Custom Properties',
-    '   Generated from tokens.json — DO NOT EDIT DIRECTLY',
+    '   Generated from files/tokens.json — DO NOT EDIT',
     '   ═══════════════════════════════════════════════════ */',
-    '',
-    '@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inconsolata:wght@400;500;600;700&display=swap");',
     '',
     ':root {',
     '  /* ── Brand Colors ── */',
+    `  --brand-blue-light: ${tokens.brand.blue.light};`,
+    `  --brand-blue: ${tokens.brand.blue.DEFAULT};`,
+    `  --brand-blue-dark: ${tokens.brand.blue.dark};`,
+    `  --brand-pink-light: ${tokens.brand.pink.light};`,
+    `  --brand-pink: ${tokens.brand.pink.DEFAULT};`,
+    `  --brand-pink-dark: ${tokens.brand.pink.dark};`,
+    '',
+    '  /* ── Neutrals ── */',
   ];
 
-  // Brand colors
-  for (const [key, token] of Object.entries(tokens.color.brand)) {
-    lines.push(`  --color-brand-${key}: ${val(token)};`);
+  for (const [key, value] of Object.entries(tokens.neutral)) {
+    const suffix = key === 'DEFAULT' ? '' : `-${key}`;
+    lines.push(`  --neutral${suffix}: ${value};`);
   }
 
-  lines.push('', '  /* ── Neutral Scale ── */');
-  for (const [key, token] of Object.entries(tokens.color.neutral)) {
-    lines.push(`  --color-neutral-${key}: ${val(token)};`);
+  lines.push(
+    '',
+    '  /* ── System Colors ── */',
+    `  --success-green: ${tokens.system.success.light};`,
+    `  --success-green-dark: ${tokens.system.success.dark};`,
+    `  --warning-yellow: ${tokens.system.warning.light};`,
+    `  --warning-yellow-dark: ${tokens.system.warning.dark};`,
+    `  --error-red: ${tokens.system.error.light};`,
+    `  --error-red-dark: ${tokens.system.error.dark};`,
+    `  --focus-state: ${tokens.system.focus};`,
+  );
+
+  lines.push(
+    '',
+    '  /* ── Semantic: Background ── */',
+  );
+  for (const [key, value] of Object.entries(tokens.semantic.background)) {
+    lines.push(`  --bg-${key}: ${value};`);
   }
 
-  lines.push('', '  /* ── Semantic Colors ── */');
-  for (const [key, token] of Object.entries(tokens.color.semantic)) {
-    lines.push(`  --color-${key}: ${val(token)};`);
+  lines.push('', '  /* ── Semantic: Text ── */');
+  for (const [key, value] of Object.entries(tokens.semantic.text)) {
+    lines.push(`  --text-${key}: ${value};`);
   }
 
-  lines.push('', '  /* ── Surface Colors ── */');
-  for (const [key, token] of Object.entries(tokens.color.surface)) {
-    lines.push(`  --surface-${key}: ${val(token)};`);
+  lines.push('', '  /* ── Semantic: Border ── */');
+  for (const [key, value] of Object.entries(tokens.semantic.border)) {
+    lines.push(`  --border-${key}: ${value};`);
   }
 
-  lines.push('', '  /* ── Text Colors ── */');
-  for (const [key, token] of Object.entries(tokens.color.text)) {
-    lines.push(`  --text-${key}: ${val(token)};`);
+  lines.push('', '  /* ── Semantic: Link ── */');
+  for (const [key, value] of Object.entries(tokens.semantic.link)) {
+    lines.push(`  --link-${key}: ${value};`);
   }
 
-  lines.push('', '  /* ── Border Colors ── */');
-  for (const [key, token] of Object.entries(tokens.color.border)) {
-    lines.push(`  --border-${key}: ${val(token)};`);
-  }
+  lines.push(
+    '',
+    '  /* ── Typography ── */',
+    `  --font-body: ${tokens.typography.fontFamily};`,
+    `  --text-base: ${tokens.typography.fontSize.base};`,
+    `  --line-height-base: ${tokens.typography.lineHeight.base};`,
+  );
 
-  lines.push('', '  /* ── Typography ── */');
-  for (const [key, token] of Object.entries(tokens.typography.fontFamily)) {
-    lines.push(`  --font-${key}: ${val(token)};`);
-  }
   lines.push('');
-  for (const [key, token] of Object.entries(tokens.typography.fontSize)) {
-    lines.push(`  --text-${key}: ${val(token)};`);
+  for (const [key, heading] of Object.entries(tokens.typography.headings)) {
+    lines.push(`  --${key}: ${heading.size};`);
   }
+
   lines.push('');
-  for (const [key, token] of Object.entries(tokens.typography.fontWeight)) {
-    lines.push(`  --weight-${key}: ${val(token)};`);
-  }
-  lines.push('');
-  for (const [key, token] of Object.entries(tokens.typography.lineHeight)) {
-    lines.push(`  --leading-${key}: ${val(token)};`);
-  }
-  lines.push('');
-  for (const [key, token] of Object.entries(tokens.typography.letterSpacing)) {
-    lines.push(`  --tracking-${key}: ${val(token)};`);
+  for (const [key, value] of Object.entries(tokens.typography.fontSize)) {
+    if (key !== 'base') {
+      lines.push(`  --text-${key}: ${value};`);
+    }
   }
 
   lines.push('', '  /* ── Spacing ── */');
-  for (const [key, token] of Object.entries(tokens.spacing)) {
-    lines.push(`  --space-${key}: ${val(token)};`);
+  for (const [key, value] of Object.entries(tokens.spacing)) {
+    lines.push(`  --space-${key}: ${value};`);
   }
 
-  lines.push('', '  /* ── Border Radius ── */');
-  for (const [key, token] of Object.entries(tokens.radius)) {
-    lines.push(`  --radius-${key}: ${val(token)};`);
+  lines.push('', '  /* ── Layout ── */');
+  for (const [key, value] of Object.entries(tokens.layout.section)) {
+    lines.push(`  --section-${key}: ${value};`);
+  }
+  lines.push(`  --padding-global: ${tokens.layout.paddingGlobal};`);
+  for (const [key, value] of Object.entries(tokens.layout.container)) {
+    lines.push(`  --container-${key}: ${value};`);
   }
 
-  lines.push('', '  /* ── Shadows ── */');
-  for (const [key, token] of Object.entries(tokens.shadow)) {
-    lines.push(`  --shadow-${key}: ${val(token)};`);
-  }
-
-  lines.push('', '  /* ── Gradients ── */');
-  for (const [key, token] of Object.entries(tokens.gradient)) {
-    lines.push(`  --gradient-${key}: ${val(token)};`);
-  }
-
-  lines.push('', '  /* ── Transitions ── */');
-  for (const [key, token] of Object.entries(tokens.transition)) {
-    lines.push(`  --transition-${key}: ${val(token)};`);
-  }
-
-  lines.push('', '  /* ── Breakpoints ── */');
-  for (const [key, token] of Object.entries(tokens.breakpoint)) {
-    lines.push(`  --breakpoint-${key}: ${val(token)};`);
+  lines.push(
+    '',
+    '  /* ── Radii ── */',
+  );
+  for (const [key, value] of Object.entries(tokens.radii)) {
+    lines.push(`  --radius-${key}: ${value};`);
   }
 
   lines.push('}', '');
-
-  // Base styles
-  lines.push(
-    '/* ── Base Styles ── */',
-    'body {',
-    '  background-color: var(--surface-page);',
-    '  color: var(--text-secondary);',
-    '  font-family: var(--font-primary);',
-    '  font-size: var(--text-base);',
-    '  line-height: var(--leading-normal);',
-    '}',
-    '',
-    'h1, h2, h3, h4, h5, h6 {',
-    '  color: var(--text-primary);',
-    '  font-weight: var(--weight-semibold);',
-    '  line-height: var(--leading-tight);',
-    '}',
-    '',
-    'a { color: var(--text-link); text-decoration: none; }',
-    'a:hover { color: var(--color-brand-primary-hover); }',
-    '',
-    'code, pre { font-family: var(--font-mono); }',
-    ''
-  );
 
   fs.writeFileSync(path.join(dist, 'tokens.css'), lines.join('\n'));
   console.log('  ✓ dist/tokens.css');
@@ -157,127 +141,102 @@ function buildCSS() {
 
 
 // ─────────────────────────────────────────────
-// 2. CLIENT-FIRST CSS (Webflow-specific)
+// 2. CLIENT-FIRST CSS (Webflow)
 // ─────────────────────────────────────────────
 function buildClientFirst() {
   const lines = [
     '/* ═══════════════════════════════════════════════════',
     '   QuantumCor — Client-First Variables for Webflow',
-    '   Compatible with Finsweet Client-First style system',
-    '   Generated from tokens.json — DO NOT EDIT DIRECTLY',
+    '   Compatible with Finsweet Client-First v2.1',
+    '   Generated from files/tokens.json — DO NOT EDIT',
     '   ═══════════════════════════════════════════════════ */',
     '',
-    '@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inconsolata:wght@400;500;600;700&display=swap");',
-    '',
     ':root {',
-    '  /* ── Client-First Color Variables ── */',
-    '  /* Naming: --color--{category}--{shade} */',
+    '  /* ── Brand ── */',
+    `  --color--brand--blue: ${tokens.brand.blue.DEFAULT};`,
+    `  --color--brand--blue-light: ${tokens.brand.blue.light};`,
+    `  --color--brand--blue-dark: ${tokens.brand.blue.dark};`,
+    `  --color--brand--pink: ${tokens.brand.pink.DEFAULT};`,
+    `  --color--brand--pink-light: ${tokens.brand.pink.light};`,
+    `  --color--brand--pink-dark: ${tokens.brand.pink.dark};`,
     '',
-    '  /* Brand */',
-    `  --color--brand--primary: ${val(tokens.color.brand.primary)};`,
-    `  --color--brand--primary-hover: ${val(tokens.color.brand['primary-hover'])};`,
-    `  --color--brand--primary-muted: ${val(tokens.color.brand['primary-muted'])};`,
-    `  --color--brand--primary-wash: ${val(tokens.color.brand['primary-wash'])};`,
-    '',
-    '  /* Neutral */',
+    '  /* ── Neutral ── */',
   ];
 
-  for (const [key, token] of Object.entries(tokens.color.neutral)) {
-    lines.push(`  --color--neutral--${key}: ${val(token)};`);
+  for (const [key, value] of Object.entries(tokens.neutral)) {
+    lines.push(`  --color--neutral--${key.toLowerCase()}: ${value};`);
   }
 
   lines.push(
     '',
-    '  /* Semantic */',
-    `  --color--success--default: ${val(tokens.color.semantic.success)};`,
-    `  --color--success--light: ${val(tokens.color.semantic['success-light'])};`,
-    `  --color--success--dark: ${val(tokens.color.semantic['success-dark'])};`,
-    `  --color--warning--default: ${val(tokens.color.semantic.warning)};`,
-    `  --color--warning--light: ${val(tokens.color.semantic['warning-light'])};`,
-    `  --color--warning--dark: ${val(tokens.color.semantic['warning-dark'])};`,
-    `  --color--error--default: ${val(tokens.color.semantic.error)};`,
-    `  --color--error--light: ${val(tokens.color.semantic['error-light'])};`,
-    `  --color--error--dark: ${val(tokens.color.semantic['error-dark'])};`,
+    '  /* ── System ── */',
+    `  --color--success: ${tokens.system.success.light};`,
+    `  --color--success-dark: ${tokens.system.success.dark};`,
+    `  --color--warning: ${tokens.system.warning.light};`,
+    `  --color--warning-dark: ${tokens.system.warning.dark};`,
+    `  --color--error: ${tokens.system.error.light};`,
+    `  --color--error-dark: ${tokens.system.error.dark};`,
     '',
-    '  /* Surfaces */',
+    '  /* ── Background ── */',
   );
+  for (const [key, value] of Object.entries(tokens.semantic.background)) {
+    lines.push(`  --color--bg--${key}: ${value};`);
+  }
 
-  for (const [key, token] of Object.entries(tokens.color.surface)) {
-    lines.push(`  --color--surface--${key}: ${val(token)};`);
+  lines.push('', '  /* ── Text ── */');
+  for (const [key, value] of Object.entries(tokens.semantic.text)) {
+    lines.push(`  --color--text--${key}: ${value};`);
+  }
+
+  lines.push('', '  /* ── Border ── */');
+  for (const [key, value] of Object.entries(tokens.semantic.border)) {
+    lines.push(`  --color--border--${key}: ${value};`);
   }
 
   lines.push(
     '',
-    '  /* Text */',
+    '  /* ── Typography ── */',
+    `  --font--body: ${tokens.typography.fontFamily};`,
   );
-  for (const [key, token] of Object.entries(tokens.color.text)) {
-    lines.push(`  --color--text--${key}: ${val(token)};`);
+  for (const [key, value] of Object.entries(tokens.typography.fontSize)) {
+    lines.push(`  --font-size--${key}: ${value};`);
+  }
+  for (const [key, heading] of Object.entries(tokens.typography.headings)) {
+    lines.push(`  --font-size--${key}: ${heading.size};`);
+  }
+
+  lines.push('', '  /* ── Spacing ── */');
+  for (const [key, value] of Object.entries(tokens.spacing)) {
+    lines.push(`  --space--${key}: ${value};`);
+  }
+
+  lines.push('', '  /* ── Layout ── */');
+  for (const [key, value] of Object.entries(tokens.layout.section)) {
+    lines.push(`  --section--${key}: ${value};`);
+  }
+  lines.push(`  --padding--global: ${tokens.layout.paddingGlobal};`);
+  for (const [key, value] of Object.entries(tokens.layout.container)) {
+    lines.push(`  --container--${key}: ${value};`);
   }
 
   lines.push(
     '',
-    '  /* ── Client-First Typography Variables ── */',
-    `  --font--primary: ${val(tokens.typography.fontFamily.primary)};`,
-    `  --font--mono: ${val(tokens.typography.fontFamily.mono)};`,
-    '',
+    '  /* ── Radii ── */',
   );
-
-  // Font sizes with Client-First naming
-  const cfSizeMap = {
-    'hero': 'display-xl',
-    'display': 'display-lg',
-    'h1': 'display',
-    'h2': 'xl',
-    'h3': 'lg',
-    'lg': 'md',
-    'base': 'default',
-    'sm': 'sm',
-    'xs': 'xs',
-    'xxs': 'xxs'
-  };
-
-  for (const [key, cfName] of Object.entries(cfSizeMap)) {
-    lines.push(`  --font-size--${cfName}: ${val(tokens.typography.fontSize[key])};`);
+  for (const [key, value] of Object.entries(tokens.radii)) {
+    lines.push(`  --radius--${key}: ${value};`);
   }
 
   lines.push(
-    '',
-    '  /* ── Client-First Spacing Variables ── */',
-    '  /* Used in padding/margin utility classes */',
-  );
-
-  const cfSpaceMap = { '1': 'xxs', '2': 'xs', '3': 'sm', '4': 'md', '6': 'lg', '8': 'xl', '12': 'xxl' };
-  for (const [key, cfName] of Object.entries(cfSpaceMap)) {
-    lines.push(`  --space--${cfName}: ${val(tokens.spacing[key])};`);
-  }
-  lines.push(`  --space--section: ${val(tokens.spacing.section)};`);
-  lines.push(`  --space--container: ${val(tokens.spacing.container)};`);
-
-  lines.push(
-    '',
-    '  /* ── Radius ── */',
-    `  --radius--sm: ${val(tokens.radius.sm)};`,
-    `  --radius--md: ${val(tokens.radius.md)};`,
-    `  --radius--lg: ${val(tokens.radius.lg)};`,
-    `  --radius--pill: ${val(tokens.radius.pill)};`,
-    '',
-    '  /* ── Shadows ── */',
-    `  --shadow--sm: ${val(tokens.shadow.sm)};`,
-    `  --shadow--md: ${val(tokens.shadow.md)};`,
-    `  --shadow--lg: ${val(tokens.shadow.lg)};`,
-    `  --shadow--glow: ${val(tokens.shadow['glow-blue'])};`,
-    '',
-    '  /* ── Transitions ── */',
-    `  --transition--fast: ${val(tokens.transition.fast)};`,
-    `  --transition--base: ${val(tokens.transition.base)};`,
-    `  --transition--slow: ${val(tokens.transition.slow)};`,
     '}',
     '',
-    '/* ── Client-First Base Overrides ── */',
+    '/* ── Base Overrides ── */',
     'body {',
-    '  background-color: var(--color--surface--page);',
-    '  color: var(--color--text--secondary);',
-    '  font-family: var(--font--primary);',
+    '  background-color: var(--color--bg--primary);',
+    '  color: var(--color--text--alternate);',
+    `  font-family: var(--font--body);`,
+    `  font-size: var(--font-size--base);`,
+    `  line-height: ${tokens.typography.lineHeight.base};`,
     '}',
     ''
   );
@@ -291,75 +250,64 @@ function buildClientFirst() {
 // 3. TAILWIND CONFIG
 // ─────────────────────────────────────────────
 function buildTailwind() {
+  const fontList = tokens.typography.fontFamily
+    .split(',')
+    .map(f => `'${f.trim().replace(/'/g, '')}'`)
+    .join(', ');
+
   const config = `// ═══════════════════════════════════════════════════
-// QuantumCor Tailwind Config
-// Generated from tokens.json — DO NOT EDIT DIRECTLY
+// QuantumCor Tailwind Config — Sentinel v2
+// Generated from files/tokens.json — DO NOT EDIT
 // ═══════════════════════════════════════════════════
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{js,ts,jsx,tsx,html}', './app/**/*.{js,ts,jsx,tsx}'],
+  content: ['./src/**/*.{js,ts,jsx,tsx,html,astro}', './app/**/*.{js,ts,jsx,tsx}'],
   theme: {
     extend: {
       colors: {
         brand: {
-          DEFAULT: '${val(tokens.color.brand.primary)}',
-          hover: '${val(tokens.color.brand['primary-hover'])}',
-          muted: '${val(tokens.color.brand['primary-muted'])}',
-          wash: '${val(tokens.color.brand['primary-wash'])}',
+          blue: {
+            light: '${tokens.brand.blue.light}',
+            DEFAULT: '${tokens.brand.blue.DEFAULT}',
+            dark: '${tokens.brand.blue.dark}',
+          },
+          pink: {
+            light: '${tokens.brand.pink.light}',
+            DEFAULT: '${tokens.brand.pink.DEFAULT}',
+            dark: '${tokens.brand.pink.dark}',
+          },
         },
         neutral: {
-${Object.entries(tokens.color.neutral).map(([k, t]) => `          '${k}': '${val(t)}',`).join('\n')}
-        },
-        surface: {
-${Object.entries(tokens.color.surface).map(([k, t]) => `          '${k}': '${val(t)}',`).join('\n')}
-        },
-        semantic: {
-          success: '${val(tokens.color.semantic.success)}',
-          'success-light': '${val(tokens.color.semantic['success-light'])}',
-          'success-dark': '${val(tokens.color.semantic['success-dark'])}',
-          warning: '${val(tokens.color.semantic.warning)}',
-          'warning-light': '${val(tokens.color.semantic['warning-light'])}',
-          'warning-dark': '${val(tokens.color.semantic['warning-dark'])}',
-          error: '${val(tokens.color.semantic.error)}',
-          'error-light': '${val(tokens.color.semantic['error-light'])}',
-          'error-dark': '${val(tokens.color.semantic['error-dark'])}',
+${Object.entries(tokens.neutral).map(([k, v]) => `          '${k.toLowerCase()}': '${v}',`).join('\n')}
         },
       },
 
       fontFamily: {
-        primary: [${val(tokens.typography.fontFamily.primary).split(',').map(f => `'${f.trim().replace(/'/g, '')}'`).join(', ')}],
-        mono: [${val(tokens.typography.fontFamily.mono).split(',').map(f => `'${f.trim().replace(/'/g, '')}'`).join(', ')}],
+        body: [${fontList}],
       },
 
       fontSize: {
-${Object.entries(tokens.typography.fontSize).map(([k, t]) => `        '${k}': '${val(t)}',`).join('\n')}
+${Object.entries(tokens.typography.fontSize).map(([k, v]) => `        '${k}': '${v}',`).join('\n')}
+${Object.entries(tokens.typography.headings).map(([k, h]) => `        '${k}': ['${h.size}', { lineHeight: '${h.lineHeight}', fontWeight: '${h.weight}' }],`).join('\n')}
+      },
+
+      spacing: {
+${Object.entries(tokens.spacing).map(([k, v]) => `        '${k}': '${v}',`).join('\n')}
+        'section-sm': '${tokens.layout.section.small}',
+        'section-md': '${tokens.layout.section.medium}',
+        'section-lg': '${tokens.layout.section.large}',
+        'global': '${tokens.layout.paddingGlobal}',
+      },
+
+      maxWidth: {
+        'container-sm': '${tokens.layout.container.small}',
+        'container-md': '${tokens.layout.container.medium}',
+        'container-lg': '${tokens.layout.container.large}',
       },
 
       borderRadius: {
-        card: '${val(tokens.radius.lg)}',
-        pill: '${val(tokens.radius.pill)}',
-      },
-
-      boxShadow: {
-        'glow': '${val(tokens.shadow['glow-blue'])}',
-        'glow-strong': '${val(tokens.shadow['glow-blue-strong'])}',
-      },
-
-      backgroundImage: {
-        'hero-orb': '${val(tokens.gradient['hero-orb'])}',
-        'card-accent': '${val(tokens.gradient['card-accent'])}',
-        'subtle-glow': '${val(tokens.gradient['subtle-glow'])}',
-      },
-
-      transitionDuration: {
-        fast: '150ms',
-        base: '200ms',
-        slow: '300ms',
-      },
-
-      screens: {
-${Object.entries(tokens.breakpoint).map(([k, t]) => `        '${k}': '${val(t)}',`).join('\n')}
+${Object.entries(tokens.radii).map(([k, v]) => `        '${k}': '${v}',`).join('\n')}
       },
     },
   },
@@ -377,73 +325,33 @@ ${Object.entries(tokens.breakpoint).map(([k, t]) => `        '${k}': '${val(t)}'
 // ─────────────────────────────────────────────
 function buildRetool() {
   const theme = {
-    name: "QuantumCor Dark",
-    version: "1.0.0",
+    name: "QuantumCor Sentinel",
+    version: "2.0.0",
     colors: {
-      primary: val(tokens.color.brand.primary),
-      primaryHover: val(tokens.color.brand['primary-hover']),
-      background: val(tokens.color.surface.page),
-      surface: val(tokens.color.surface.card),
-      surfaceHover: val(tokens.color.surface['card-hover']),
-      border: val(tokens.color.border.default),
-      borderSubtle: val(tokens.color.border.subtle),
-      textPrimary: val(tokens.color.text.primary),
-      textSecondary: val(tokens.color.text.secondary),
-      textTertiary: val(tokens.color.text.tertiary),
-      textDisabled: val(tokens.color.text.disabled),
-      textLink: val(tokens.color.text.link),
-      textOnPrimary: val(tokens.color.text['on-primary']),
-      success: val(tokens.color.semantic.success),
-      successLight: val(tokens.color.semantic['success-light']),
-      warning: val(tokens.color.semantic.warning),
-      warningLight: val(tokens.color.semantic['warning-light']),
-      error: val(tokens.color.semantic.error),
-      errorLight: val(tokens.color.semantic['error-light']),
-      overlay: val(tokens.color.surface.overlay),
+      primary: tokens.brand.blue.DEFAULT,
+      primaryLight: tokens.brand.blue.light,
+      primaryDark: tokens.brand.blue.dark,
+      secondary: tokens.brand.pink.DEFAULT,
+      background: tokens.neutral.black,
+      surface: tokens.neutral.darkest,
+      border: tokens.neutral.darker,
+      textPrimary: tokens.neutral.white,
+      textSecondary: tokens.neutral.lighter,
+      textMuted: tokens.neutral.light,
+      success: tokens.system.success.light,
+      successDark: tokens.system.success.dark,
+      warning: tokens.system.warning.light,
+      warningDark: tokens.system.warning.dark,
+      error: tokens.system.error.light,
+      errorDark: tokens.system.error.dark,
     },
     typography: {
-      fontFamily: val(tokens.typography.fontFamily.primary),
-      monoFontFamily: val(tokens.typography.fontFamily.mono),
-      sizes: Object.fromEntries(
-        Object.entries(tokens.typography.fontSize).map(([k, t]) => [k, val(t)])
-      ),
+      fontFamily: tokens.typography.fontFamily,
+      sizes: tokens.typography.fontSize,
+      headings: tokens.typography.headings,
     },
-    spacing: Object.fromEntries(
-      Object.entries(tokens.spacing).map(([k, t]) => [k, val(t)])
-    ),
-    borderRadius: {
-      sm: val(tokens.radius.sm),
-      md: val(tokens.radius.md),
-      lg: val(tokens.radius.lg),
-      pill: val(tokens.radius.pill),
-    },
-    shadows: Object.fromEntries(
-      Object.entries(tokens.shadow).map(([k, t]) => [k, val(t)])
-    ),
-    components: {
-      button: tokens.component.button,
-      card: tokens.component.card,
-      input: tokens.component.input,
-      nav: tokens.component.nav,
-      badge: tokens.component.badge,
-    },
-    _retoolCustomCSS: `
-/* Paste into Retool > Settings > Custom CSS */
-:root {
-  --retool-primary: ${val(tokens.color.brand.primary)};
-  --retool-bg: ${val(tokens.color.surface.page)};
-  --retool-surface: ${val(tokens.color.surface.card)};
-  --retool-border: ${val(tokens.color.border.default)};
-  --retool-text: ${val(tokens.color.text.primary)};
-  --retool-text-secondary: ${val(tokens.color.text.secondary)};
-}
-.retool-canvas { background: var(--retool-bg) !important; }
-.retool-widget-container { 
-  background: var(--retool-surface) !important; 
-  border-color: var(--retool-border) !important;
-  border-radius: ${val(tokens.radius.lg)} !important;
-}
-    `.trim()
+    spacing: tokens.spacing,
+    borderRadius: tokens.radii,
   };
 
   fs.writeFileSync(path.join(dist, 'retool-theme.json'), JSON.stringify(theme, null, 2));
@@ -458,37 +366,65 @@ function buildSCSS() {
   const lines = [
     '// ═══════════════════════════════════════════════════',
     '// QuantumCor Design Tokens — SCSS Variables',
-    '// Generated from tokens.json — DO NOT EDIT DIRECTLY',
+    '// Generated from files/tokens.json — DO NOT EDIT',
     '// ═══════════════════════════════════════════════════',
     '',
-    '// Brand Colors',
+    '// Brand',
+    `$brand-blue-light: ${tokens.brand.blue.light};`,
+    `$brand-blue: ${tokens.brand.blue.DEFAULT};`,
+    `$brand-blue-dark: ${tokens.brand.blue.dark};`,
+    `$brand-pink-light: ${tokens.brand.pink.light};`,
+    `$brand-pink: ${tokens.brand.pink.DEFAULT};`,
+    `$brand-pink-dark: ${tokens.brand.pink.dark};`,
+    '',
+    '// Neutrals',
   ];
 
-  for (const [key, token] of Object.entries(tokens.color.brand)) {
-    lines.push(`$color-brand-${key}: ${val(token)};`);
+  for (const [key, value] of Object.entries(tokens.neutral)) {
+    const suffix = key === 'DEFAULT' ? '' : `-${key}`;
+    lines.push(`$neutral${suffix}: ${value};`);
   }
-  lines.push('', '// Neutral Scale');
-  for (const [key, token] of Object.entries(tokens.color.neutral)) {
-    lines.push(`$color-neutral-${key}: ${val(token)};`);
+
+  lines.push(
+    '',
+    '// System',
+    `$success-green: ${tokens.system.success.light};`,
+    `$success-green-dark: ${tokens.system.success.dark};`,
+    `$warning-yellow: ${tokens.system.warning.light};`,
+    `$warning-yellow-dark: ${tokens.system.warning.dark};`,
+    `$error-red: ${tokens.system.error.light};`,
+    `$error-red-dark: ${tokens.system.error.dark};`,
+    '',
+    '// Typography',
+    `$font-body: ${tokens.typography.fontFamily};`,
+  );
+
+  for (const [key, value] of Object.entries(tokens.typography.fontSize)) {
+    lines.push(`$text-${key}: ${value};`);
   }
-  lines.push('', '// Semantic');
-  for (const [key, token] of Object.entries(tokens.color.semantic)) {
-    lines.push(`$color-${key}: ${val(token)};`);
+  for (const [key, heading] of Object.entries(tokens.typography.headings)) {
+    lines.push(`$${key}-size: ${heading.size};`);
+    lines.push(`$${key}-line-height: ${heading.lineHeight};`);
+    lines.push(`$${key}-weight: ${heading.weight};`);
   }
-  lines.push('', '// Typography');
-  for (const [key, token] of Object.entries(tokens.typography.fontFamily)) {
-    lines.push(`$font-${key}: ${val(token)};`);
-  }
-  for (const [key, token] of Object.entries(tokens.typography.fontSize)) {
-    lines.push(`$text-${key}: ${val(token)};`);
-  }
+
   lines.push('', '// Spacing');
-  for (const [key, token] of Object.entries(tokens.spacing)) {
-    lines.push(`$space-${key}: ${val(token)};`);
+  for (const [key, value] of Object.entries(tokens.spacing)) {
+    lines.push(`$space-${key}: ${value};`);
   }
-  lines.push('', '// Radius');
-  for (const [key, token] of Object.entries(tokens.radius)) {
-    lines.push(`$radius-${key}: ${val(token)};`);
+
+  lines.push('', '// Layout');
+  for (const [key, value] of Object.entries(tokens.layout.section)) {
+    lines.push(`$section-${key}: ${value};`);
+  }
+  lines.push(`$padding-global: ${tokens.layout.paddingGlobal};`);
+  for (const [key, value] of Object.entries(tokens.layout.container)) {
+    lines.push(`$container-${key}: ${value};`);
+  }
+
+  lines.push('', '// Radii');
+  for (const [key, value] of Object.entries(tokens.radii)) {
+    lines.push(`$radius-${key}: ${value};`);
   }
 
   fs.writeFileSync(path.join(dist, 'tokens.scss'), lines.join('\n'));
@@ -500,79 +436,57 @@ function buildSCSS() {
 // 6. WARP TERMINAL THEME
 // ─────────────────────────────────────────────
 function buildWarp() {
-  const theme = {
-    name: 'QuantumCor',
-    accent: val(tokens.color.brand.primary),
-    background: val(tokens.color.surface.page),
-    foreground: val(tokens.color.text.secondary),
-    details: 'darker',
-    terminal_colors: {
-      normal: {
-        black: val(tokens.color.neutral['900']),
-        red: val(tokens.color.semantic.error),
-        green: val(tokens.color.semantic.success),
-        yellow: val(tokens.color.semantic.warning),
-        blue: val(tokens.color.brand.primary),
-        magenta: '#A855F7',
-        cyan: '#22D3EE',
-        white: val(tokens.color.neutral['100']),
-      },
-      bright: {
-        black: val(tokens.color.neutral['400']),
-        red: '#EF4444',
-        green: '#34D399',
-        yellow: '#FBBF24',
-        blue: val(tokens.color.brand['primary-hover']),
-        magenta: '#C084FC',
-        cyan: '#67E8F9',
-        white: val(tokens.color.neutral.white),
-      }
-    }
-  };
+  const yaml = `# QuantumCor Warp Terminal Theme — Sentinel v2
+# Place in ~/.warp/themes/quantumcor.yaml
+name: "QuantumCor"
+accent: "${tokens.brand.blue.DEFAULT}"
+background: "${tokens.neutral.black}"
+foreground: "${tokens.neutral.lighter}"
+details: "darker"
+terminal_colors:
+  normal:
+    black: "${tokens.neutral.darkest}"
+    red: "${tokens.system.error.dark}"
+    green: "${tokens.system.success.dark}"
+    yellow: "${tokens.system.warning.dark}"
+    blue: "${tokens.brand.blue.DEFAULT}"
+    magenta: "${tokens.brand.pink.DEFAULT}"
+    cyan: "#22D3EE"
+    white: "${tokens.neutral.lightest}"
+  bright:
+    black: "${tokens.neutral.dark}"
+    red: "${tokens.system.error.light}"
+    green: "${tokens.system.success.light}"
+    yellow: "${tokens.system.warning.light}"
+    blue: "${tokens.brand.blue.light}"
+    magenta: "${tokens.brand.pink.light}"
+    cyan: "#67E8F9"
+    white: "${tokens.neutral.white}"
+`;
 
-  fs.writeFileSync(path.join(dist, 'warp-theme.yaml'),
-    `# QuantumCor Warp Terminal Theme\n# Place in ~/.warp/themes/\n${yamlFromObj(theme)}`
-  );
+  fs.writeFileSync(path.join(dist, 'warp-theme.yaml'), yaml);
   console.log('  ✓ dist/warp-theme.yaml');
-}
-
-function yamlFromObj(obj, indent = 0) {
-  let out = '';
-  const pad = '  '.repeat(indent);
-  for (const [k, v] of Object.entries(obj)) {
-    if (typeof v === 'object' && v !== null) {
-      out += `${pad}${k}:\n${yamlFromObj(v, indent + 1)}`;
-    } else {
-      out += `${pad}${k}: "${v}"\n`;
-    }
-  }
-  return out;
 }
 
 
 // ─────────────────────────────────────────────
-// 7. FLAT JSON EXPORT (for any tool)
+// 7. FLAT JSON EXPORT
 // ─────────────────────────────────────────────
 function buildFlatJSON() {
   const flat = {};
 
   function flatten(obj, prefix = '') {
     for (const [key, value] of Object.entries(obj)) {
-      const path = prefix ? `${prefix}.${key}` : key;
-      if (typeof value === 'object' && value !== null && !value.value) {
-        flatten(value, path);
+      const p = prefix ? `${prefix}.${key}` : key;
+      if (typeof value === 'object' && value !== null) {
+        flatten(value, p);
       } else {
-        flat[path] = val(value);
+        flat[p] = value;
       }
     }
   }
 
-  flatten(tokens.color, 'color');
-  flatten(tokens.typography, 'typography');
-  flatten(tokens.spacing, 'spacing');
-  flatten(tokens.radius, 'radius');
-  flatten(tokens.shadow, 'shadow');
-  flatten(tokens.gradient, 'gradient');
+  flatten(tokens);
 
   fs.writeFileSync(path.join(dist, 'tokens-flat.json'), JSON.stringify(flat, null, 2));
   console.log('  ✓ dist/tokens-flat.json');
@@ -582,7 +496,7 @@ function buildFlatJSON() {
 // ─────────────────────────────────────────────
 // BUILD ALL
 // ─────────────────────────────────────────────
-console.log('\n🔨 Building QuantumCor Design Tokens...\n');
+console.log('\n🔨 Building QuantumCor Design Tokens (Sentinel v2)...\n');
 buildCSS();
 buildClientFirst();
 buildTailwind();

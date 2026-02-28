@@ -1,77 +1,87 @@
 // ═══════════════════════════════════════════════════
 // QuantumCor Design Tokens — SCSS Variables
-// Generated from tokens.json — DO NOT EDIT DIRECTLY
+// Generated from files/tokens.json — DO NOT EDIT
 // ═══════════════════════════════════════════════════
 
-// Brand Colors
-$color-brand-primary: #2369FE;
-$color-brand-primary-hover: #4A85FE;
-$color-brand-primary-muted: rgba(35, 105, 254, 0.15);
-$color-brand-primary-wash: rgba(35, 105, 254, 0.05);
+// Brand
+$brand-blue-light: #D9E5FF;
+$brand-blue: #2D62FF;
+$brand-blue-dark: #080331;
+$brand-pink-light: #FFAEFE;
+$brand-pink: #DD23BB;
+$brand-pink-dark: #3C043B;
 
-// Neutral Scale
-$color-neutral-50: #FBFBFB;
-$color-neutral-100: #EEEEEE;
-$color-neutral-200: #CCCCCC;
-$color-neutral-300: #AAAAAA;
-$color-neutral-400: #444444;
-$color-neutral-500: #333333;
-$color-neutral-600: #222222;
-$color-neutral-700: #1A1A1A;
-$color-neutral-800: #111111;
-$color-neutral-900: #090909;
-$color-neutral-950: #050505;
-$color-neutral-white: #FFFFFF;
+// Neutrals
+$neutral-black: #000000;
+$neutral-white: #FFFFFF;
+$neutral-lightest: #EEEEEE;
+$neutral-lighter: #CCCCCC;
+$neutral-light: #AAAAAA;
+$neutral: #666666;
+$neutral-dark: #444444;
+$neutral-darker: #222222;
+$neutral-darkest: #111111;
 
-// Semantic
-$color-success: #059669;
-$color-success-light: #D1FAE5;
-$color-success-dark: #064E3B;
-$color-warning: #D97706;
-$color-warning-light: #FEF3C7;
-$color-warning-dark: #78350F;
-$color-error: #DC2626;
-$color-error-light: #FEE2E2;
-$color-error-dark: #7F1D1D;
-$color-info: #2369FE;
-$color-info-light: #DBEAFE;
+// System
+$success-green: #CEF5CA;
+$success-green-dark: #114E0B;
+$warning-yellow: #FCF8D8;
+$warning-yellow-dark: #5E5515;
+$error-red: #F8E4E4;
+$error-red-dark: #3B0B0B;
 
 // Typography
-$font-primary: 'Montserrat', sans-serif;
-$font-mono: 'Inconsolata', monospace;
-$text-hero: 3rem;
-$text-display: 2.5rem;
-$text-h1: 2.25rem;
-$text-h2: 1.5rem;
-$text-h3: 1.25rem;
-$text-lg: 1.125rem;
+$font-body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 $text-base: 1rem;
-$text-sm: 0.875rem;
-$text-xs: 0.7rem;
-$text-xxs: 0.6rem;
+$text-tiny: 0.75rem;
+$text-small: 0.875rem;
+$text-regular: 1rem;
+$text-medium: 1.25rem;
+$text-large: 1.5rem;
+$h1-size: 4rem;
+$h1-line-height: 1.1;
+$h1-weight: 700;
+$h2-size: 3rem;
+$h2-line-height: 1.2;
+$h2-weight: 700;
+$h3-size: 2rem;
+$h3-line-height: 1.2;
+$h3-weight: 700;
+$h4-size: 1.5rem;
+$h4-line-height: 1.4;
+$h4-weight: 700;
+$h5-size: 1.25rem;
+$h5-line-height: 1.5;
+$h5-weight: 700;
+$h6-size: 1rem;
+$h6-line-height: 1.5;
+$h6-weight: 700;
 
 // Spacing
-$space-0: 0;
-$space-1: 0.25rem;
-$space-2: 0.5rem;
-$space-3: 0.75rem;
-$space-4: 1rem;
-$space-5: 1.25rem;
-$space-6: 1.5rem;
-$space-8: 2rem;
-$space-10: 2.5rem;
-$space-12: 3rem;
-$space-16: 4rem;
-$space-20: 5rem;
-$space-24: 6rem;
-$space-section: 5rem;
-$space-container: 1.5rem;
+$space-tiny: 0.125rem;
+$space-xxsmall: 0.25rem;
+$space-xsmall: 0.5rem;
+$space-small: 1rem;
+$space-custom1: 1.5rem;
+$space-medium: 2rem;
+$space-custom2: 2.5rem;
+$space-large: 3rem;
+$space-custom3: 3.5rem;
+$space-xlarge: 4rem;
+$space-xxlarge: 5rem;
+$space-huge: 6rem;
+$space-xhuge: 8rem;
+$space-xxhuge: 12rem;
 
-// Radius
-$radius-none: 0;
-$radius-sm: 0.25rem;
-$radius-md: 0.5rem;
-$radius-lg: 0.75rem;
-$radius-xl: 1rem;
-$radius-pill: 100px;
-$radius-full: 9999px;
+// Layout
+$section-small: 3rem;
+$section-medium: 5rem;
+$section-large: 8rem;
+$padding-global: 2.5rem;
+$container-small: 48rem;
+$container-medium: 64rem;
+$container-large: 80rem;
+
+// Radii
+$radius-button: 0.25rem;
+$radius-card: 0.25rem;

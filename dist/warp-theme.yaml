@@ -1,26 +1,26 @@
-# QuantumCor Warp Terminal Theme
-# Place in ~/.warp/themes/
+# QuantumCor Warp Terminal Theme — Sentinel v2
+# Place in ~/.warp/themes/quantumcor.yaml
 name: "QuantumCor"
-accent: "#2369FE"
-background: "#090909"
+accent: "#2D62FF"
+background: "#000000"
 foreground: "#CCCCCC"
 details: "darker"
 terminal_colors:
   normal:
-    black: "#090909"
-    red: "#DC2626"
-    green: "#059669"
-    yellow: "#D97706"
-    blue: "#2369FE"
-    magenta: "#A855F7"
+    black: "#111111"
+    red: "#3B0B0B"
+    green: "#114E0B"
+    yellow: "#5E5515"
+    blue: "#2D62FF"
+    magenta: "#DD23BB"
     cyan: "#22D3EE"
     white: "#EEEEEE"
   bright:
     black: "#444444"
-    red: "#EF4444"
-    green: "#34D399"
-    yellow: "#FBBF24"
-    blue: "#4A85FE"
-    magenta: "#C084FC"
+    red: "#F8E4E4"
+    green: "#CEF5CA"
+    yellow: "#FCF8D8"
+    blue: "#D9E5FF"
+    magenta: "#FFAEFE"
     cyan: "#67E8F9"
     white: "#FFFFFF"

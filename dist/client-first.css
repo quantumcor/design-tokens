@@ -1,112 +1,103 @@
 /* ═══════════════════════════════════════════════════
    QuantumCor — Client-First Variables for Webflow
-   Compatible with Finsweet Client-First style system
-   Generated from tokens.json — DO NOT EDIT DIRECTLY
+   Compatible with Finsweet Client-First v2.1
+   Generated from files/tokens.json — DO NOT EDIT
    ═══════════════════════════════════════════════════ */
 
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Inconsolata:wght@400;500;600;700&display=swap");
-
 :root {
-  /* ── Client-First Color Variables ── */
-  /* Naming: --color--{category}--{shade} */
+  /* ── Brand ── */
+  --color--brand--blue: #2D62FF;
+  --color--brand--blue-light: #D9E5FF;
+  --color--brand--blue-dark: #080331;
+  --color--brand--pink: #DD23BB;
+  --color--brand--pink-light: #FFAEFE;
+  --color--brand--pink-dark: #3C043B;
 
-  /* Brand */
-  --color--brand--primary: #2369FE;
-  --color--brand--primary-hover: #4A85FE;
-  --color--brand--primary-muted: rgba(35, 105, 254, 0.15);
-  --color--brand--primary-wash: rgba(35, 105, 254, 0.05);
-
-  /* Neutral */
-  --color--neutral--50: #FBFBFB;
-  --color--neutral--100: #EEEEEE;
-  --color--neutral--200: #CCCCCC;
-  --color--neutral--300: #AAAAAA;
-  --color--neutral--400: #444444;
-  --color--neutral--500: #333333;
-  --color--neutral--600: #222222;
-  --color--neutral--700: #1A1A1A;
-  --color--neutral--800: #111111;
-  --color--neutral--900: #090909;
-  --color--neutral--950: #050505;
+  /* ── Neutral ── */
+  --color--neutral--black: #000000;
   --color--neutral--white: #FFFFFF;
+  --color--neutral--lightest: #EEEEEE;
+  --color--neutral--lighter: #CCCCCC;
+  --color--neutral--light: #AAAAAA;
+  --color--neutral--default: #666666;
+  --color--neutral--dark: #444444;
+  --color--neutral--darker: #222222;
+  --color--neutral--darkest: #111111;
 
-  /* Semantic */
-  --color--success--default: #059669;
-  --color--success--light: #D1FAE5;
-  --color--success--dark: #064E3B;
-  --color--warning--default: #D97706;
-  --color--warning--light: #FEF3C7;
-  --color--warning--dark: #78350F;
-  --color--error--default: #DC2626;
-  --color--error--light: #FEE2E2;
-  --color--error--dark: #7F1D1D;
+  /* ── System ── */
+  --color--success: #CEF5CA;
+  --color--success-dark: #114E0B;
+  --color--warning: #FCF8D8;
+  --color--warning-dark: #5E5515;
+  --color--error: #F8E4E4;
+  --color--error-dark: #3B0B0B;
 
-  /* Surfaces */
-  --color--surface--page: #090909;
-  --color--surface--nav: #090909;
-  --color--surface--card: #111111;
-  --color--surface--card-hover: #1A1A1A;
-  --color--surface--input: #1A1A1A;
-  --color--surface--overlay: rgba(0, 0, 0, 0.7);
-  --color--surface--tooltip: #222222;
+  /* ── Background ── */
+  --color--bg--primary: var(--neutral-black);
+  --color--bg--secondary: var(--brand-blue);
+  --color--bg--tertiary: var(--brand-pink);
+  --color--bg--alternate: var(--neutral-white);
 
-  /* Text */
-  --color--text--primary: #FBFBFB;
-  --color--text--secondary: #CCCCCC;
-  --color--text--tertiary: #AAAAAA;
-  --color--text--disabled: #444444;
-  --color--text--link: #2369FE;
-  --color--text--on-primary: #FFFFFF;
-  --color--text--inverse: #090909;
+  /* ── Text ── */
+  --color--text--primary: var(--neutral-black);
+  --color--text--secondary: var(--neutral-darker);
+  --color--text--alternate: var(--neutral-white);
 
-  /* ── Client-First Typography Variables ── */
-  --font--primary: 'Montserrat', sans-serif;
-  --font--mono: 'Inconsolata', monospace;
+  /* ── Border ── */
+  --color--border--primary: var(--neutral-lightest);
+  --color--border--secondary: var(--brand-blue);
+  --color--border--alternate: var(--neutral-darker);
 
-  --font-size--display-xl: 3rem;
-  --font-size--display-lg: 2.5rem;
-  --font-size--display: 2.25rem;
-  --font-size--xl: 1.5rem;
-  --font-size--lg: 1.25rem;
-  --font-size--md: 1.125rem;
-  --font-size--default: 1rem;
-  --font-size--sm: 0.875rem;
-  --font-size--xs: 0.7rem;
-  --font-size--xxs: 0.6rem;
+  /* ── Typography ── */
+  --font--body: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-size--base: 1rem;
+  --font-size--tiny: 0.75rem;
+  --font-size--small: 0.875rem;
+  --font-size--regular: 1rem;
+  --font-size--medium: 1.25rem;
+  --font-size--large: 1.5rem;
+  --font-size--h1: 4rem;
+  --font-size--h2: 3rem;
+  --font-size--h3: 2rem;
+  --font-size--h4: 1.5rem;
+  --font-size--h5: 1.25rem;
+  --font-size--h6: 1rem;
 
-  /* ── Client-First Spacing Variables ── */
-  /* Used in padding/margin utility classes */
-  --space--xxs: 0.25rem;
-  --space--xs: 0.5rem;
-  --space--sm: 0.75rem;
-  --space--md: 1rem;
-  --space--lg: 1.5rem;
-  --space--xl: 2rem;
-  --space--xxl: 3rem;
-  --space--section: 5rem;
-  --space--container: 1.5rem;
+  /* ── Spacing ── */
+  --space--tiny: 0.125rem;
+  --space--xxsmall: 0.25rem;
+  --space--xsmall: 0.5rem;
+  --space--small: 1rem;
+  --space--custom1: 1.5rem;
+  --space--medium: 2rem;
+  --space--custom2: 2.5rem;
+  --space--large: 3rem;
+  --space--custom3: 3.5rem;
+  --space--xlarge: 4rem;
+  --space--xxlarge: 5rem;
+  --space--huge: 6rem;
+  --space--xhuge: 8rem;
+  --space--xxhuge: 12rem;
 
-  /* ── Radius ── */
-  --radius--sm: 0.25rem;
-  --radius--md: 0.5rem;
-  --radius--lg: 0.75rem;
-  --radius--pill: 100px;
+  /* ── Layout ── */
+  --section--small: 3rem;
+  --section--medium: 5rem;
+  --section--large: 8rem;
+  --padding--global: 2.5rem;
+  --container--small: 48rem;
+  --container--medium: 64rem;
+  --container--large: 80rem;
 
-  /* ── Shadows ── */
-  --shadow--sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-  --shadow--md: 0 4px 12px rgba(0, 0, 0, 0.4);
-  --shadow--lg: 0 8px 24px rgba(0, 0, 0, 0.5);
-  --shadow--glow: 0 0 20px rgba(35, 105, 254, 0.15);
-
-  /* ── Transitions ── */
-  --transition--fast: 150ms ease;
-  --transition--base: 200ms ease;
-  --transition--slow: 300ms ease-in-out;
+  /* ── Radii ── */
+  --radius--button: 0.25rem;
+  --radius--card: 0.25rem;
 }
 
-/* ── Client-First Base Overrides ── */
+/* ── Base Overrides ── */
 body {
-  background-color: var(--color--surface--page);
-  color: var(--color--text--secondary);
-  font-family: var(--font--primary);
+  background-color: var(--color--bg--primary);
+  color: var(--color--text--alternate);
+  font-family: var(--font--body);
+  font-size: var(--font-size--base);
+  line-height: 1.5;
 }
