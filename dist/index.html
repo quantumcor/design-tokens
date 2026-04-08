@@ -41,22 +41,19 @@
       display: inline-block;
     }
 
-    .hero .tagline {
-      font-size: var(--text-large);
-      color: var(--neutral-light);
-      margin-top: var(--space-medium);
-      max-width: 36rem;
-      margin-left: auto;
-      margin-right: auto;
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      padding: var(--space-small);
+      color: var(--neutral-dark);
+      font-size: var(--text-small);
     }
 
     @media (max-width: 48rem) {
       .hero h1 {
         font-size: var(--h2);
-      }
-
-      .hero .tagline {
-        font-size: var(--text-medium);
       }
     }
   </style>
@@ -65,8 +62,11 @@
 
   <header class="hero">
     <h1>Hello World</h1>
-    <p class="tagline">A unified design token system powering every platform from a single source of truth.</p>
   </header>
+
+  <footer class="footer">
+    &copy; MONARC OS. All rights reserved.
+  </footer>
 
 </body>
 </html>
