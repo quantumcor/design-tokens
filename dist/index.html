@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hello World — QuantumCor Design Tokens</title>
+  <title>Hello World — QuantumCor</title>
   <link rel="stylesheet" href="tokens.css">
   <style>
     *, *::before, *::after {
@@ -19,20 +19,15 @@
       background-color: var(--bg-primary);
       color: var(--text-alternate);
       -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
     }
 
-    .container {
-      max-width: var(--container-medium);
-      margin: 0 auto;
-      padding-left: var(--padding-global);
-      padding-right: var(--padding-global);
-    }
-
-    /* ── Hero ── */
     .hero {
-      padding-top: var(--section-large);
-      padding-bottom: var(--section-large);
       text-align: center;
+      padding: var(--padding-global);
     }
 
     .hero h1 {
@@ -55,123 +50,6 @@
       margin-right: auto;
     }
 
-    .cta-button {
-      display: inline-block;
-      margin-top: var(--space-large);
-      padding: var(--space-small) var(--space-medium);
-      background-color: var(--brand-blue);
-      color: var(--neutral-white);
-      font-size: var(--text-medium);
-      font-weight: 600;
-      text-decoration: none;
-      border-radius: var(--radius-button);
-      transition: background-color 0.2s;
-    }
-
-    .cta-button:hover {
-      background-color: var(--brand-blue-dark);
-    }
-
-    /* ── Showcase ── */
-    .showcase {
-      background-color: var(--neutral-darkest);
-      padding-top: var(--section-medium);
-      padding-bottom: var(--section-medium);
-    }
-
-    .showcase h2 {
-      font-size: var(--h2);
-      font-weight: 700;
-      line-height: 1.2;
-    }
-
-    .showcase > .container > p {
-      color: var(--neutral-light);
-      font-size: var(--text-medium);
-      margin-top: var(--space-xsmall);
-    }
-
-    .token-group {
-      margin-top: var(--space-xlarge);
-    }
-
-    .token-group h3 {
-      font-size: var(--h4);
-      font-weight: 600;
-      color: var(--neutral-lighter);
-      margin-bottom: var(--space-small);
-    }
-
-    /* ── Swatches ── */
-    .swatch-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(8rem, 1fr));
-      gap: var(--space-small);
-    }
-
-    .swatch {
-      height: 5rem;
-      border-radius: var(--radius-card);
-      display: flex;
-      align-items: flex-end;
-      padding: var(--space-xsmall);
-      border: 1px solid var(--neutral-darker);
-    }
-
-    .swatch span {
-      font-size: var(--text-tiny);
-      font-weight: 500;
-      line-height: 1;
-    }
-
-    .swatch.light-label span {
-      color: var(--neutral-darkest);
-    }
-
-    .swatch.dark-label span {
-      color: var(--neutral-white);
-    }
-
-    /* ── Type Scale ── */
-    .type-scale p {
-      font-weight: 700;
-      margin-bottom: var(--space-xsmall);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    /* ── Spacing Demo ── */
-    .spacing-row {
-      display: flex;
-      align-items: center;
-      gap: var(--space-small);
-      margin-bottom: var(--space-xsmall);
-    }
-
-    .spacing-bar {
-      height: var(--space-small);
-      background: linear-gradient(90deg, var(--brand-blue), var(--brand-pink));
-      border-radius: var(--radius-button);
-      flex-shrink: 0;
-    }
-
-    .spacing-label {
-      font-size: var(--text-tiny);
-      color: var(--neutral-light);
-      white-space: nowrap;
-    }
-
-    /* ── Footer ── */
-    .footer {
-      padding: var(--space-large) 0;
-      border-top: 1px solid var(--border-alternate);
-      text-align: center;
-      color: var(--neutral-light);
-      font-size: var(--text-small);
-    }
-
-    /* ── Responsive ── */
     @media (max-width: 48rem) {
       .hero h1 {
         font-size: var(--h2);
@@ -180,136 +58,15 @@
       .hero .tagline {
         font-size: var(--text-medium);
       }
-
-      .swatch-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .type-scale p {
-        font-size: revert;
-      }
     }
   </style>
 </head>
 <body>
 
-  <!-- Hero -->
   <header class="hero">
-    <div class="container">
-      <h1>Hello World</h1>
-      <p class="tagline">A unified design token system powering every platform from a single source of truth.</p>
-      <a href="#tokens" class="cta-button">Explore Tokens</a>
-    </div>
+    <h1>Hello World</h1>
+    <p class="tagline">A unified design token system powering every platform from a single source of truth.</p>
   </header>
-
-  <!-- Token Showcase -->
-  <section id="tokens" class="showcase">
-    <div class="container">
-      <h2>Design Tokens</h2>
-      <p>The building blocks behind every surface.</p>
-
-      <!-- Brand Colors -->
-      <div class="token-group">
-        <h3>Brand Colors</h3>
-        <div class="swatch-grid">
-          <div class="swatch light-label" style="background: var(--brand-blue-light)"><span>Blue Light</span></div>
-          <div class="swatch dark-label" style="background: var(--brand-blue)"><span>Blue</span></div>
-          <div class="swatch dark-label" style="background: var(--brand-blue-dark)"><span>Blue Dark</span></div>
-          <div class="swatch light-label" style="background: var(--brand-pink-light)"><span>Pink Light</span></div>
-          <div class="swatch dark-label" style="background: var(--brand-pink)"><span>Pink</span></div>
-          <div class="swatch dark-label" style="background: var(--brand-pink-dark)"><span>Pink Dark</span></div>
-        </div>
-      </div>
-
-      <!-- Neutrals -->
-      <div class="token-group">
-        <h3>Neutrals</h3>
-        <div class="swatch-grid">
-          <div class="swatch light-label" style="background: var(--neutral-white)"><span>White</span></div>
-          <div class="swatch light-label" style="background: var(--neutral-lightest)"><span>Lightest</span></div>
-          <div class="swatch light-label" style="background: var(--neutral-lighter)"><span>Lighter</span></div>
-          <div class="swatch light-label" style="background: var(--neutral-light)"><span>Light</span></div>
-          <div class="swatch dark-label" style="background: var(--neutral)"><span>Default</span></div>
-          <div class="swatch dark-label" style="background: var(--neutral-dark)"><span>Dark</span></div>
-          <div class="swatch dark-label" style="background: var(--neutral-darker)"><span>Darker</span></div>
-          <div class="swatch dark-label" style="background: var(--neutral-darkest)"><span>Darkest</span></div>
-          <div class="swatch dark-label" style="background: var(--neutral-black)"><span>Black</span></div>
-        </div>
-      </div>
-
-      <!-- Typography -->
-      <div class="token-group">
-        <h3>Typography</h3>
-        <div class="type-scale">
-          <p style="font-size: var(--h1)">H1 — 4rem</p>
-          <p style="font-size: var(--h2)">H2 — 3rem</p>
-          <p style="font-size: var(--h3)">H3 — 2rem</p>
-          <p style="font-size: var(--h4)">H4 — 1.5rem</p>
-          <p style="font-size: var(--h5)">H5 — 1.25rem</p>
-          <p style="font-size: var(--h6)">H6 — 1rem</p>
-        </div>
-      </div>
-
-      <!-- Spacing -->
-      <div class="token-group">
-        <h3>Spacing</h3>
-        <div class="spacing-demo">
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-tiny)"></div>
-            <span class="spacing-label">tiny — 0.125rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-xxsmall)"></div>
-            <span class="spacing-label">xxsmall — 0.25rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-xsmall)"></div>
-            <span class="spacing-label">xsmall — 0.5rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-small)"></div>
-            <span class="spacing-label">small — 1rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-medium)"></div>
-            <span class="spacing-label">medium — 2rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-large)"></div>
-            <span class="spacing-label">large — 3rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-xlarge)"></div>
-            <span class="spacing-label">xlarge — 4rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-xxlarge)"></div>
-            <span class="spacing-label">xxlarge — 5rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-huge)"></div>
-            <span class="spacing-label">huge — 6rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-xhuge)"></div>
-            <span class="spacing-label">xhuge — 8rem</span>
-          </div>
-          <div class="spacing-row">
-            <div class="spacing-bar" style="width: var(--space-xxhuge)"></div>
-            <span class="spacing-label">xxhuge — 12rem</span>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="container">
-      <p>Built with QuantumCor Design Tokens</p>
-    </div>
-  </footer>
 
 </body>
 </html>
