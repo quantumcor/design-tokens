@@ -1,5 +1,6 @@
 name = "design-tokens"
 compatibility_date = "2026-02-27"
+route = "monarcos.com/*"
 
 [assets]
 directory = "./dist"

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hello World — QuantumCor</title>
+  <link rel="stylesheet" href="tokens.css">
+  <style>
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font-body);
+      font-size: var(--text-base);
+      line-height: var(--line-height-base);
+      background-color: var(--bg-primary);
+      color: var(--text-alternate);
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .hero {
+      text-align: center;
+      padding: var(--padding-global);
+    }
+
+    .hero h1 {
+      font-size: var(--h1);
+      font-weight: 700;
+      line-height: 1.1;
+      background: linear-gradient(135deg, var(--brand-blue), var(--brand-pink));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      display: inline-block;
+    }
+
+    .footer {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      text-align: center;
+      padding: var(--space-small);
+      color: var(--neutral-dark);
+      font-size: var(--text-small);
+    }
+
+    @media (max-width: 48rem) {
+      .hero h1 {
+        font-size: var(--h2);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="hero">
+    <h1>Hello World</h1>
+  </header>
+
+  <footer class="footer">
+    &copy; MONARC OS. All rights reserved.
+  </footer>
+
+</body>
+</html>
